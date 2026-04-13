@@ -4,6 +4,7 @@ import type { AppDispatch } from "@/stores/store";
 import type { CartItem } from "@/types";
 import { type ProductResponse } from "@/types/product";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router";
 
@@ -33,6 +34,7 @@ export const useProductDetails = () => {
       price: Number(data?.price),
       quantity: quantity,
     };
+    toast.success("Product added to cart");
     dispatch(addToCart(item));
   };
 

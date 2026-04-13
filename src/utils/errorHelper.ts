@@ -55,11 +55,6 @@ export const getErrorMessage = (error: unknown): string => {
       }
     }
 
-    // 3. Handle standard JavaScript Error object or SerializedError
-    if ("message" in error && typeof error.message === "string") {
-      return error.message;
-    }
-
     // Fallback for other object types instead of [object Object]
     try {
       return JSON.stringify(error);

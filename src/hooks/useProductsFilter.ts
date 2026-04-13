@@ -49,7 +49,7 @@ export const useProductsFilter = (productParams: ProductParams | undefined) => {
     };
   });
 
-  // 2. UI Local state (for inputs)
+  // 2. UI state
   const [searchTerm, setSearchTerm] = useState(params.keyword || "");
   const [minPrice, setMinPrice] = useState(params.minPrice?.toString() || "");
   const [maxPrice, setMaxPrice] = useState(params.maxPrice?.toString() || "");
