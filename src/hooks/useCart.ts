@@ -24,6 +24,7 @@ export const useCart = () => {
     dispatch(updateQuantity({ id, quantity }));
   };
 
+
   const handleCheckout = async () => {
     const orders: OrderRequest[] = cart.items.map((item) => ({
       productId: Number(item.id),
@@ -31,13 +32,10 @@ export const useCart = () => {
     }));
     try {
       await createOrder({ items: orders }).unwrap();
+      dispatch(clearCart());
+      toast.success("Order placed successfully!");
     } catch (error: unknown) {
       const msg = getErrorMessage(error);
-
-      if (msg.includes("Insufficient stock")) {
-        dispatch(clearCart());
-      }
-
       toast.error(msg);
     }
   };

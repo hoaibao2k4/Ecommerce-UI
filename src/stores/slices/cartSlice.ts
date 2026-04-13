@@ -15,11 +15,20 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id,
       );
       if (existingItem) {
-        existingItem.quantity += action.payload.quantity;
+        // check available stock
+        const canAdd = Math.min(
+          action.payload.quantity,
+          existingItem.stockQuantity - existingItem.quantity,
+        );
+
+        if (canAdd > 0) {
+          existingItem.quantity += canAdd;
+          state.totalAmount += existingItem.price * canAdd;
+        }
       } else {
         state.items.push(action.payload);
+        state.totalAmount += action.payload.price * action.payload.quantity;
       }
-      state.totalAmount += action.payload.price * action.payload.quantity;
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
       const index = state.items.findIndex((item) => item.id === action.payload);
