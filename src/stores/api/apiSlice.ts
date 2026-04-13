@@ -10,7 +10,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers) => {
     return headers;
   },
-  credentials: "include",
+  credentials: "include", // enable cookie
 });
 
 import { logout } from "../slices/authSlice";
@@ -24,7 +24,7 @@ const baseQueryWithReauth: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  const url = typeof args === "string" ? args : args.url;
+  const url = typeof args === "string" ? args : args.url; // string or obj (post, put....)
 
   if (
     result?.error?.status === 401 &&

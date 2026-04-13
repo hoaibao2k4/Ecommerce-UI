@@ -4,8 +4,8 @@ import Pagination from "@/components/ui/pagination";
 import Skeleton from "@/components/ui/skeleton";
 import { useCategories } from "@/hooks/useCategories";
 import { useProductsFilter } from "@/hooks/useProductsFilter";
-import type { CategoryResponse } from "@/types";
 import ErrorPage from "@/pages/error/ErrorPage";
+import type { CategoryResponse } from "@/types";
 import { isCriticalError } from "@/utils/errorHelper";
 import { HiArrowNarrowDown, HiArrowNarrowUp } from "react-icons/hi";
 
@@ -197,7 +197,10 @@ export default function ProductPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 justify-items-center min-h-[400px]">
         {isProductsLoading ? (
           Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="w-full max-w-[300px] space-y-4 p-4 border border-gray-100 rounded-2xl">
+            <div
+              key={i}
+              className="w-full max-w-[300px] space-y-4 p-4 border border-gray-100 rounded-2xl"
+            >
               <Skeleton className="aspect-square w-full rounded-xl" />
               <div className="space-y-2">
                 <Skeleton className="h-5 w-3/4" />

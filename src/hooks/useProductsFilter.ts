@@ -116,7 +116,7 @@ export const useProductsFilter = (productParams: ProductParams | undefined) => {
         newParams.sortBy = "createdAt";
         newParams.direction = "desc";
       } else if (type === "category") {
-        newParams.categoryId = id;
+        newParams.categoryId = prev.categoryId === id ? undefined : id;
       }
 
       return newParams;

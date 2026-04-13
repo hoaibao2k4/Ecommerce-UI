@@ -32,7 +32,7 @@ export const apiOrder = apiSlice.injectEndpoints({
         url: `/orders/${orderId}/status?orderStatus=${orderStatus}`,
         method: "PATCH",
       }),
-      invalidatesTags: ["Order"],
+      invalidatesTags: ["Order", "Product"],
     }),
     getMyOrders: builder.query<OrderResponse[], void>({
       query: () => `/orders/my-orders`,

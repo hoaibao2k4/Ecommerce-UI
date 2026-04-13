@@ -18,7 +18,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   // Safety check for Vite/ESM default export wrapper
-  storage: (storage as unknown as { default: typeof storage }).default || storage,
+  storage: (storage as unknown as { default: typeof storage }).default || storage, // use localstorage
   whitelist: ['auth', 'cart'],
 };
 
@@ -35,7 +35,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER], // redux actions
       },
     }).concat(apiSlice.middleware),
 });

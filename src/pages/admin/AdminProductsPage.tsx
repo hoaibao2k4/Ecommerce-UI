@@ -88,6 +88,7 @@ export default function AdminProductsPage() {
             onChange={(e) => {
               if (e.target.value === "asc") onSortChange("price-asc");
               else if (e.target.value === "desc") onSortChange("price-desc");
+              else onSortChange("newest");
             }}
             className="w-full px-2 py-1 text-[10px] border border-slate-200 rounded-lg focus:ring-2 focus:ring-primary/20 outline-none bg-slate-50 font-bold text-slate-500 italic"
           >
@@ -143,7 +144,10 @@ export default function AdminProductsPage() {
             <FaEdit />
           </CustomButton>
           <CustomButton
-            onClick={() => setIsDelete(true)}
+            onClick={() => {
+              setSelectedProductId(row.id);
+              setIsDelete(true);
+            }}
             className="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-colors"
           >
             <FaTrash />
@@ -205,8 +209,17 @@ export default function AdminProductsPage() {
       />
       <ConfirmDialog
         isOpen={isDelete}
-        onCancel={() => setIsDelete(false)}
-        onConfirm={() => handleDeleteProduct(selectedProductId!)}
+        onCancel={() => {
+          setIsDelete(false);
+          setSelectedProductId(undefined);
+        }}
+        onConfirm={async () => {
+          if (selectedProductId) {
+            await handleDeleteProduct(selectedProductId);
+            setIsDelete(false);
+            setSelectedProductId(undefined);
+          }
+        }}
         title="Delete Product"
         message="Are you sure you want to delete this product?"
       />
