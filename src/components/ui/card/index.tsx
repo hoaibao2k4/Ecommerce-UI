@@ -67,7 +67,7 @@ export default function Card({
             variant="primary"
             size="sm"
             className="flex-1"
-            onClick={() => handleBuyNow({ id, name, price, quantity: 1 })}
+            onClick={() => handleBuyNow({ id, name, price, quantity: 1, stockQuantity })}
             disabled={stockQuantity === 0}
           >
             Buy Now
@@ -76,7 +76,7 @@ export default function Card({
             variant="secondary"
             size="sm"
             className="px-3"
-            onClick={() => handleAddToCart({ id, name, price, quantity: 1 })}
+            onClick={() => handleAddToCart({ id, name, price, quantity: 1, stockQuantity })}
             disabled={stockQuantity === 0}
           >
             🛒

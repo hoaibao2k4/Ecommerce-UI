@@ -215,7 +215,13 @@ export default function AdminProductsPage() {
         }}
         onConfirm={async () => {
           if (selectedProductId) {
-            await handleDeleteProduct(selectedProductId);
+            const success = await handleDeleteProduct(selectedProductId);
+            if (success) {
+              // check if exists 1 item in current page => go to previous page
+              if (products.length === 1 && pagination.currentPage > 1) {
+                handlePageChange(pagination.currentPage - 1);
+              }
+            }
             setIsDelete(false);
             setSelectedProductId(undefined);
           }

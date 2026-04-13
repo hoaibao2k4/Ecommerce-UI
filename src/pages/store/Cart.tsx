@@ -74,7 +74,8 @@ export default function Cart() {
                     <CustomButton
                       variant="ghost"
                       size="sm"
-                      className="px-3 py-1 hover:text-primary"
+                      className="px-3 py-1 hover:text-primary disabled:opacity-30"
+                      disabled={item.quantity >= item.stockQuantity}
                       onClick={() =>
                         handleUpdateQuantity(item.id, item.quantity + 1)
                       }

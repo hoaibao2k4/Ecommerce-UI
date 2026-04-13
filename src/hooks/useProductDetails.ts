@@ -33,6 +33,7 @@ export const useProductDetails = () => {
       name: data?.name || "",
       price: Number(data?.price),
       quantity: quantity,
+      stockQuantity: Number(data?.stockQuantity),
     };
     toast.success("Product added to cart");
     dispatch(addToCart(item));

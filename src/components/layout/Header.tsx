@@ -2,7 +2,7 @@ import CustomButton from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
-import { Link } from "react-router";
+import { NavLink, Link } from "react-router";
 
 export default function Header() {
   const { isAuthenticated, isAdmin, handleLogout, isLoading } = useAuth();
@@ -32,13 +32,17 @@ export default function Header() {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8">
             {navLinks.map((link) => (
-              <Link
+              <NavLink
                 key={link.path}
                 to={link.path}
-                className="text-gray-600 hover:text-primary transition-colors font-medium"
+                className={({ isActive }) =>
+                  `transition-colors font-medium ${
+                    isActive ? "text-primary font-bold" : "text-gray-600 hover:text-primary"
+                  }`
+                }
               >
                 {link.title}
-              </Link>
+              </NavLink>
             ))}
           </nav>
 
@@ -55,12 +59,16 @@ export default function Header() {
                       Admin UI
                     </Link>
                   ) : (
-                    <Link
+                    <NavLink
                       to="/orders"
-                      className="text-gray-600 hover:text-primary transition-colors font-medium text-sm"
+                      className={({ isActive }) =>
+                        `transition-colors font-medium ${
+                          isActive ? "text-primary font-bold" : "text-gray-600 hover:text-primary"
+                        }`
+                      }
                     >
                       My Orders
-                    </Link>
+                    </NavLink>
                   )}
                   <CustomButton
                     onClick={handleLogout}
@@ -110,14 +118,20 @@ export default function Header() {
         <div className="md:hidden border-t border-gray-100 bg-white animate-in slide-in-from-top duration-300">
           <div className="px-4 pt-2 pb-6 space-y-1">
             {navLinks.map((link) => (
-              <Link
+              <NavLink
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsMenuOpen(false)}
-                className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 transition-all"
+                className={({ isActive }) =>
+                  `block px-3 py-3 rounded-md text-base font-medium transition-all ${
+                    isActive
+                      ? "text-primary bg-primary/5 font-bold"
+                      : "text-gray-700 hover:text-primary hover:bg-gray-50"
+                  }`
+                }
               >
                 {link.title}
-              </Link>
+              </NavLink>
             ))}
 
             <div className="pt-4 border-t border-gray-100 sm:hidden">
