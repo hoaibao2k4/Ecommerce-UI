@@ -55,13 +55,14 @@ export function StatusDropdown({
       ref={triggerRef}
       role="none"
     >
-      <button
+      <CustomButton
+        variant="ghost"
         type="button"
         disabled={isFinalState}
-        className={`transition-opacity group bg-transparent border-none p-0 outline-none ${
+        className={`transition-opacity group bg-transparent border-none p-0 outline-none flex items-center justify-center ${
           isFinalState
             ? "cursor-default"
-            : "cursor-pointer hover:opacity-80 focus:ring-2 ring-primary/20 rounded-full"
+            : "cursor-pointer hover:opacity-80 focus:ring-2 ring-primary/20 rounded-full h-10 w-40"
         }`}
         onClick={() => !isFinalState && setIsOpen(!isOpen)}
         aria-expanded={isOpen}
@@ -74,7 +75,7 @@ export function StatusDropdown({
             "group-hover:ring-2 ring-offset-1 ring-current/30 transition-all duration-300"
           }`}
         />
-      </button>
+      </CustomButton>
 
       {/* Tooltip Dropdown */}
       {!isFinalState && (

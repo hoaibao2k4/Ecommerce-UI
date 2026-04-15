@@ -1,3 +1,4 @@
+import CustomButton from "@/components/ui/button";
 import { useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import { IoMdClose } from "react-icons/io";
@@ -87,13 +88,15 @@ export default function Modal({
               <div />
             )}
             {showCloseButton && (
-              <button
+              <CustomButton
+                variant="ghost"
+                size="sm"
                 onClick={onClose}
                 aria-label="Close modal"
-                className="p-1 rounded-full hover:bg-background transition-colors text-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20"
+                className="p-1 rounded-full hover:bg-background transition-colors text-muted hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 h-10 w-10"
               >
                 <IoMdClose size={24} />
-              </button>
+              </CustomButton>
             )}
           </div>
         )}

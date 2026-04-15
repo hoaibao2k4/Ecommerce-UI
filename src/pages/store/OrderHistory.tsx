@@ -71,8 +71,9 @@ export default function OrderHistory() {
                 }`}
               >
                 {/* Top: Order Info */}
-                <button
-                  className={`w-full text-left p-8 flex flex-wrap justify-between items-center gap-6 cursor-pointer select-none transition-colors ${
+                <CustomButton
+                  variant="ghost"
+                  className={`w-full text-left p-8 flex flex-wrap justify-between items-center gap-6 cursor-pointer select-none transition-colors border-none rounded-none !justify-start ${
                     isExpanded ? "bg-slate-50/80" : "bg-white"
                   }`}
                   onClick={() => toggleOrder(order.id)}
@@ -122,7 +123,7 @@ export default function OrderHistory() {
                       <FaChevronDown />
                     </span>
                   </div>
-                </button>
+                </CustomButton>
 
                 {/* Bottom: Items Summary (Animated) */}
                 <AnimatePresence>
@@ -226,11 +227,10 @@ export default function OrderHistory() {
               collections.
             </p>
           </div>
-          <Link
-            to="/products"
-            className="inline-block bg-primary text-white px-12 py-4 rounded-full font-black uppercase tracking-wider hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 active:scale-95"
-          >
-            Explore Store
+          <Link to="/products">
+            <CustomButton className="px-12 py-6 rounded-full font-black uppercase tracking-wider hover:shadow-2xl hover:shadow-primary/40 transition-all duration-300 active:scale-95">
+              Explore Store
+            </CustomButton>
           </Link>
         </div>
       )}

@@ -12,6 +12,7 @@ import { useGetCategoriesQuery } from "@/stores/api/apiCategory";
 import type { ProductResponse } from "@/types";
 import { useState } from "react";
 import { FaEdit, FaPlus, FaTrash } from "react-icons/fa";
+import CustomInput from "@/components/ui/input";
 
 export default function AdminProductsPage() {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,7 +64,7 @@ export default function AdminProductsPage() {
         <span className="font-semibold text-slate-800">{row.name}</span>
       ),
       filter: (
-        <input
+        <CustomInput
           type="text"
           placeholder="Search name..."
           value={searchTerm}

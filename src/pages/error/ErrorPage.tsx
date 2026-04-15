@@ -1,3 +1,4 @@
+import CustomButton from "@/components/ui/button";
 import { HiArrowPath, HiHome } from "react-icons/hi2";
 import { useNavigate } from "react-router";
 
@@ -31,22 +32,23 @@ const ErrorPage = ({
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           {onRetry && (
-            <button
+            <CustomButton
               onClick={onRetry}
               className="flex items-center justify-center gap-2 px-6 py-2.5 bg-primary text-white rounded-xl font-bold transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary/20"
             >
               <HiArrowPath className="text-lg" />
               Try Again
-            </button>
+            </CustomButton>
           )}
           
-          <button
+          <CustomButton
+            variant="secondary"
             onClick={() => navigate("/")}
-            className="flex items-center justify-center gap-2 px-6 py-2.5 bg-slate-100 text-slate-600 rounded-xl font-bold hover:bg-slate-200 transition-all active:scale-95"
+            className="flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl font-bold transition-all active:scale-95"
           >
             <HiHome className="text-lg" />
             Back to Home
-          </button>
+          </CustomButton>
         </div>
       </div>
     </div>

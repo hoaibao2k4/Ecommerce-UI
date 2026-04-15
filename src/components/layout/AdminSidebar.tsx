@@ -33,14 +33,16 @@ export default function AdminSidebar({
         <span className="text-2xl font-black tracking-widest text-primary italic">
           ADMIN
         </span>
-        <button
-          className="lg:hidden text-slate-400 hover:text-white"
+        <CustomButton
+          variant="ghost"
+          size="sm"
+          className="lg:hidden text-slate-400 hover:text-white hover:bg-slate-800"
           onClick={() => setIsOpen(false)}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
-        </button>
+        </CustomButton>
       </div>
 
       <nav className="flex-1 p-4 space-y-2 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-slate-700">

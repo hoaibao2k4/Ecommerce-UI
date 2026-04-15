@@ -86,23 +86,27 @@ export default function ProductDetails() {
             <div className="flex items-center gap-6">
               <span className="font-bold text-foreground">Quantity</span>
               <div className="flex items-center border border-border rounded-xl px-2 py-1 bg-white shadow-sm">
-                <button
+                <CustomButton
+                  variant="ghost"
+                  size="sm"
                   onClick={handleDecrease}
                   disabled={quantity <= 1}
                   className="w-10 h-10 flex items-center justify-center text-xl hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   −
-                </button>
+                </CustomButton>
                 <span className="w-12 text-center font-bold text-lg">
                   {quantity}
                 </span>
-                <button
+                <CustomButton
+                  variant="ghost"
+                  size="sm"
                   onClick={handleIncrease}
                   disabled={quantity >= (product?.stockQuantity ?? 0)}
                   className="w-10 h-10 flex items-center justify-center text-xl hover:text-primary transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
                 >
                   +
-                </button>
+                </CustomButton>
               </div>
             </div>
 

@@ -1,5 +1,6 @@
 import CustomButton from "@/components/ui/button";
 import Card from "@/components/ui/card";
+import CustomInput from "@/components/ui/input";
 import Pagination from "@/components/ui/pagination";
 import Skeleton from "@/components/ui/skeleton";
 import { useCategories } from "@/hooks/useCategories";
@@ -86,7 +87,7 @@ export default function ProductPage() {
           {/* Search Field */}
           <div className="lg:col-span-5 flex flex-col gap-2">
             <p className="text-sm font-semibold text-foreground">Search</p>
-            <input
+            <CustomInput
               type="text"
               placeholder="Iphone, Nike, Clean Code..."
               className="w-full px-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -100,7 +101,7 @@ export default function ProductPage() {
           <div className="lg:col-span-4 flex flex-col gap-2">
             <p className="text-sm font-semibold text-foreground">Price Range</p>
             <div className="flex items-center gap-2">
-              <input
+              <CustomInput
                 type="number"
                 placeholder="Min"
                 className="w-full px-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -109,7 +110,7 @@ export default function ProductPage() {
                 onKeyDown={(e) => e.key === "Enter" && onSubmit()}
               />
               <span className="text-muted">—</span>
-              <input
+              <CustomInput
                 type="number"
                 placeholder="Max"
                 className="w-full px-4 py-2.5 rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all"
@@ -184,12 +185,14 @@ export default function ProductPage() {
           products
         </p>
         {(searchTerm || minPrice || maxPrice) && (
-          <button
+          <CustomButton
+            variant="ghost"
+            size="sm"
             onClick={clearFilters}
-            className="text-primary hover:underline font-medium"
+            className="text-primary hover:underline font-medium p-0 h-auto"
           >
             Clear all filters
-          </button>
+          </CustomButton>
         )}
       </div>
 

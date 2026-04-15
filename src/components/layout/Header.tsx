@@ -99,16 +99,18 @@ export default function Header() {
             </div>
 
             {/* Mobile Menu Button */}
-            <button
+            <CustomButton
+              variant="ghost"
+              size="sm"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary hover:bg-gray-100 transition-colors"
+              className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary hover:bg-gray-100 transition-colors h-10 w-10"
             >
               {isMenuOpen ? (
                 <HiX className="h-6 w-6" />
               ) : (
                 <HiMenu className="h-6 w-6" />
               )}
-            </button>
+            </CustomButton>
           </div>
         </div>
       </div>
@@ -144,15 +146,17 @@ export default function Header() {
                   >
                     {isAdmin ? "Admin Dashboard" : "My Orders"}
                   </Link>
-                  <button
+                  <CustomButton
+                    variant="ghost"
+                    size="sm"
                     onClick={() => {
                       handleLogout();
                       setIsMenuOpen(false);
                     }}
-                    className="block w-full text-left px-3 py-3 text-base font-medium text-red-600 hover:bg-red-50"
+                    className="block w-full text-left px-3 py-3 text-base font-medium text-red-600 hover:bg-red-50 !justify-start"
                   >
                     Log out
-                  </button>
+                  </CustomButton>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4 pt-4">

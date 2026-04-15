@@ -1,3 +1,4 @@
+import CustomButton from "@/components/ui/button";
 import React, { useState } from "react";
 import AdminHeader from "./AdminHeader";
 import AdminSidebar from "./AdminSidebar";
@@ -11,10 +12,11 @@ export default function AdminLayout({
     <div className="flex h-screen bg-slate-100 font-sans overflow-hidden">
       {/* Overlay for mobile */}
       {isSidebarOpen && (
-        <button
+        <CustomButton
+          variant="ghost"
           type="button"
           aria-label="Close Sidebar"
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 w-full h-full border-none cursor-default"
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden transition-opacity duration-300 w-full h-full border-none cursor-default rounded-none"
           onClick={() => setIsSidebarOpen(false)}
         />
       )}

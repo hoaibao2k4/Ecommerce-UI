@@ -113,11 +113,10 @@ export default function Cart() {
                   Looks like you haven't added anything to your cart yet. Let's find something amazing for you!
                 </p>
               </div>
-              <Link
-                to="/products"
-                className="inline-block bg-primary text-white px-10 py-4 rounded-2xl font-black hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-1 active:scale-95"
-              >
-                Start Shopping
+              <Link to="/products">
+                <CustomButton className="px-10 py-4 rounded-2xl font-black hover:shadow-lg hover:shadow-primary/30 transition-all hover:-translate-y-1 active:scale-95">
+                  Start Shopping
+                </CustomButton>
               </Link>
             </div>
           )}

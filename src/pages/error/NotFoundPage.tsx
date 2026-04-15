@@ -1,3 +1,4 @@
+import CustomButton from "@/components/ui/button";
 import { HiArrowLeft, HiHome } from "react-icons/hi2";
 import { useNavigate } from "react-router";
 
@@ -21,21 +22,22 @@ const NotFoundPage = () => {
         </div>
 
         <div className="mt-10 flex flex-col gap-3">
-          <button
+          <CustomButton
             onClick={() => navigate("/")}
             className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors shadow-lg shadow-indigo-200 dark:shadow-none"
           >
             <HiHome className="text-xl" />
             Back to Home
-          </button>
+          </CustomButton>
           
-          <button
+          <CustomButton
+            variant="secondary"
             onClick={() => navigate(-1)}
-            className="w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-medium hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-medium transition-colors"
           >
             <HiArrowLeft className="text-xl" />
             Go Back
-          </button>
+          </CustomButton>
         </div>
         
         <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
