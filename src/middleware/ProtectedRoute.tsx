@@ -6,10 +6,7 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
   adminOnly?: boolean;
 }
-export default function ProtectedRoute({
-  children,
-  adminOnly,
-}: Readonly<ProtectedRouteProps>) {
+export default function ProtectedRoute({ children, adminOnly }: Readonly<ProtectedRouteProps>) {
   const { isAuthenticated, isAdmin } = useAuth();
   const location = useLocation();
 
@@ -18,7 +15,7 @@ export default function ProtectedRoute({
   }
 
   if (adminOnly && !isAdmin) {
-    return <NotFoundPage />;
+    return <NotFoundPage/>;
   }
 
   return <>{children}</>;

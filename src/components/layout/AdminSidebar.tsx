@@ -21,7 +21,7 @@ export default function AdminSidebar({
   setIsOpen,
 }: Readonly<{ isOpen: boolean; setIsOpen: (val: boolean) => void }>) {
   const location = useLocation();
-  const { handleLogout, isLoading } = useAuth();
+  const { handleLogoutAll, isLoading } = useAuth();
 
   return (
     <aside
@@ -77,12 +77,12 @@ export default function AdminSidebar({
 
       <div className="p-4 border-t border-slate-800 shrink-0">
         <CustomButton
-          onClick={handleLogout}
+          onClick={handleLogoutAll}
           disabled={isLoading}
           className="flex items-center gap-4 px-4 py-3 w-full rounded-xl font-medium text-slate-400 hover:bg-red-500 hover:text-white transition-all duration-300 group"
         >
           <FaSignOutAlt className="text-xl group-hover:-translate-x-1 transition-transform" />
-          <span className="whitespace-nowrap">Sign Out</span>
+          <span className="whitespace-nowrap">Logout</span>
         </CustomButton>
       </div>
     </aside>

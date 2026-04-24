@@ -5,7 +5,7 @@ import { HiMenu, HiX } from "react-icons/hi";
 import { NavLink, Link } from "react-router";
 
 export default function Header() {
-  const { isAuthenticated, isAdmin, handleLogout, isLoading } = useAuth();
+  const { isAuthenticated, isAdmin, handleLogoutAll, isLoading, handleKeycloakLogin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navLinks = [
@@ -71,13 +71,13 @@ export default function Header() {
                     </NavLink>
                   )}
                   <CustomButton
-                    onClick={handleLogout}
+                    onClick={handleLogoutAll}
                     disabled={isLoading}
                     variant="primary"
                     size="sm"
-                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors font-medium text-sm"
+                    className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-hover transition-colors font-medium text-sm whitespace-nowrap"
                   >
-                    Log out
+                    Logout
                   </CustomButton>
                 </div>
               ) : (
@@ -150,30 +150,34 @@ export default function Header() {
                     variant="ghost"
                     size="sm"
                     onClick={() => {
-                      handleLogout();
+                      handleLogoutAll();
                       setIsMenuOpen(false);
                     }}
                     className="block w-full text-left px-3 py-3 text-base font-medium text-red-600 hover:bg-red-50 !justify-start"
                   >
-                    Log out
+                    Logout
                   </CustomButton>
                 </div>
               ) : (
                 <div className="grid grid-cols-2 gap-4 pt-4">
                   <Link
                     to="/login"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                    }}
                     className="flex justify-center items-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
                   >
                     Log in
                   </Link>
-                  <Link
-                    to="/register"
-                    onClick={() => setIsMenuOpen(false)}
+                  <button
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      handleKeycloakLogin();
+                    }}
                     className="flex justify-center items-center px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-primary hover:bg-primary-hover shadow-sm"
                   >
                     Sign up
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>

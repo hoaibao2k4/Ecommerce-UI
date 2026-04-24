@@ -1,70 +1,81 @@
-import {
-  useLoginMutation,
-  useLogoutMutation,
-  useRegisterMutation,
-} from "@/stores/api/apiAuth";
+import { useGetMeQuery, useLogoutAllMutation } from "@/stores/api/apiAuth";
 import { logout, setCredentials } from "@/stores/slices/authSlice";
 import type { RootState } from "@/stores/store";
-import type { LoginForm, RegisterForm } from "@/types";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router";
-import { getErrorMessage } from "@/utils/errorHelper";
+import { useEffect } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 
 export const useAuth = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { isAuthenticated, isAdmin } = useSelector(
-    (state: RootState) => state.auth,
-  );
+  const location = useLocation();
 
-  const [loginMutation, { isLoading: isLoginLoading }] = useLoginMutation();
-  const [registerMutation, { isLoading: isRegisterLoading }] =
-    useRegisterMutation();
-  const [logoutMutation, { isLoading: isLogoutLoading }] = useLogoutMutation();
+  const { user, isAuthenticated, isAdmin } = useSelector((state: RootState) => state.auth);
 
-  const handleLogin = async (data: LoginForm) => {
-    try {
-      const res = await loginMutation(data).unwrap();
-      dispatch(setCredentials(res));
-      toast.success(`Welcome back, ${res.username}!`);
-      if (res.role === "admin") {
-        navigate("/admin");
+  // skip call api me if on login or register page
+  const skipFetchMe = ["/login", "/register"].includes(location.pathname);
+
+  // Fetch user info from /auth/me
+  const {
+    data: userData,
+    error,
+    isLoading: isFetchingMe,
+    isSuccess,
+  } = useGetMeQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+    skip: skipFetchMe, // turn off loop
+  });
+
+  const [logoutAllMutation, { isLoading: isLogoutLoading }] = useLogoutAllMutation();
+
+  useEffect(() => {
+    if (isSuccess && userData) {
+      if (userData.authenticated === false) {
+        dispatch(logout());
       } else {
-        navigate("/");
+        dispatch(setCredentials(userData));
       }
-    } catch (error: unknown) {
-      toast.error(getErrorMessage(error));
     }
-  };
-
-  const handleRegister = async (data: RegisterForm) => {
-    try {
-      await registerMutation(data).unwrap();
-      toast.success("Registration successful!");
-      navigate("/login");
-    } catch (error: unknown) {
-      toast.error(getErrorMessage(error));
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await logoutMutation().unwrap();
+    if (error) {
       dispatch(logout());
-      toast.success("Logged out successfully");
-      navigate("/");
-    } catch (error: unknown) {
-      toast.error(getErrorMessage(error));
+      if (!skipFetchMe && (error as unknown as { status: number }).status === 401) {
+        console.warn("Session expired or blacklisted.");
+      }
     }
+  }, [isSuccess, userData, error, dispatch, skipFetchMe]);
+
+  const handleLogoutAll = async () => {
+    try {
+      await logoutAllMutation().unwrap();
+      dispatch(logout());
+      toast.success("Logout successfully!");
+      // clear cookie and state
+      globalThis.location.href = "/";
+    } catch (error: unknown) {
+      let errorMessage = "Logout failed!";
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === "object" && error !== null && "data" in error) {
+        // Handle RTK Query error structure
+        const rtkError = error as { data: { message?: string } };
+        errorMessage = rtkError.data.message || errorMessage;
+      }
+      toast.error(errorMessage);
+    }
+  };
+
+  const handleKeycloakLogin = () => {
+    const apiUrl = import.meta.env.VITE_API_URL;
+    globalThis.location.href = `${apiUrl}/oauth2/authorization/keycloak`;
   };
 
   return {
-    handleLogin,
-    handleLogout,
-    handleRegister,
+    userData,
+    user,
+    handleKeycloakLogin,
+    handleLogoutAll,
     isAuthenticated,
     isAdmin,
-    isLoading: isLoginLoading || isRegisterLoading || isLogoutLoading,
+    isLoading: isFetchingMe || isLogoutLoading,
   };
 };

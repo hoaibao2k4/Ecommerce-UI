@@ -9,21 +9,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router";
 
 export default function LoginPage() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LoginForm>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
-    },
-  });
-  const { handleLogin, isLoading } = useAuth();
-  const onSubmit = (data: LoginForm) => {
-    handleLogin(data);
-  };
+  const { handleKeycloakLogin } = useAuth();
   return (
     <div
       className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
@@ -40,29 +26,25 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          <CustomInput
-            id="username"
-            label="Username"
-            type="text"
-            placeholder="Enter your username"
-            error={errors.username?.message}
-            {...register("username")}
-          />
-
-          <CustomInput
-            id="password"
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            error={errors.password?.message}
-            {...register("password")}
-          />
-
-          <CustomButton type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Signing In..." : "Sign In"}
+        <div className="space-y-6 mt-8">
+          <CustomButton 
+            onClick={handleKeycloakLogin} 
+            className="w-full flex items-center justify-center gap-2"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-5 h-5"
+            >
+              <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3" />
+            </svg>
+            Sign In with Keycloak SSO
           </CustomButton>
-        </form>
+        </div>
         <div className="text-center text-sm">
           <span className="text-muted">Don't have an account? </span>
           <Link
