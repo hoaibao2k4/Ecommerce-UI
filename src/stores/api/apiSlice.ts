@@ -17,7 +17,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 ) => {
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error?.status == 401) {
+  if (result.error?.status == 401 && typeof args === "object" && args.url != "/me") {
     api.dispatch(logout());
     const apiUrl = import.meta.env.VITE_API_URL;
     globalThis.location.href = `${apiUrl}/oauth2/authorization/keycloak`;
