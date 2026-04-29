@@ -8,7 +8,6 @@ export interface ProductResponse {
   price: number;
   stockQuantity: number;
   category: CategoryResponse;
-  isActive: boolean;
   createdAt: string;
 }
 
