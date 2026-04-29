@@ -1,6 +1,6 @@
 import Badge from "@/components/ui/badge";
 import CustomButton from "@/components/ui/button";
-import { useCard } from "@/hooks/useCard";
+import { useCart } from "@/hooks/useCart";
 import { useState } from "react";
 import { Link } from "react-router";
 
@@ -24,7 +24,7 @@ export default function Card({
   imageUrl,
 }: Readonly<CardProps>) {
   const [imgSrc, setImgSrc] = useState(imageUrl || DEFAULT_IMAGE);
-  const { handleAddToCart, handleBuyNow } = useCard();
+  const { handleAddToCart, handleBuyNow } = useCart();
   return (
     <div className="group relative w-full max-w-[280px] bg-white rounded-2xl border border-border overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 flex flex-col h-full shadow-sm">
       {/* 1. Image Area */}

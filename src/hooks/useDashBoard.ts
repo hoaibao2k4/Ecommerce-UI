@@ -6,30 +6,46 @@ import { useMemo } from "react";
 import toast from "react-hot-toast";
 
 export const useDashBoard = () => {
-  const { data, isLoading } = useGetProductsQuery();
+  const { 
+    data: products, 
+    isLoading: productsLoading, 
+    isError: isProductsError, 
+    error: productsError 
+  } = useGetProductsQuery();
 
-  const { data: orders, isLoading: ordersLoading } = useGetOrdersFilterQuery({
+  const {
+    data: orders,
+    isLoading: ordersLoading,
+    isError: isOrdersError,
+    error: ordersError,
+  } = useGetOrdersFilterQuery({
     page: 0,
-    size: 1000,
+    size: 5,
     sortBy: "createdAt",
     direction: "desc",
   });
 
+  const {
+    data: pendingData,
+    isLoading: pendingLoading,
+    isError: isPendingError,
+    error: pendingError,
+  } = useGetOrdersFilterQuery({
+    page: 0,
+    size: 1,
+    status: "PENDING",
+  });
+
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
 
-  const pendingOrders = useMemo(
-    () => orders?.content.filter((order) => order.status.toUpperCase() === "PENDING"),
-    [orders],
-  );
-
   const totalItems = useMemo(
-    () => data?.reduce((acc, item) => acc + item.stockQuantity, 0),
-    [data],
+    () => products?.reduce((acc, item) => acc + item.stockQuantity, 0) || 0,
+    [products],
   );
 
   const top5OrdersNewest = useMemo(() => {
     if (!orders) return [];
-    return orders.content.slice(0, 5);
+    return orders.content;
   }, [orders]);
 
   const handleUpdateOrderStatus = async (
@@ -45,12 +61,13 @@ export const useDashBoard = () => {
   };
 
   return {
-    totalItems,
+    totalItems: totalItems,
     totalOrders: orders?.totalElements,
-    isLoading: isLoading || ordersLoading,
-    pendingOrders: pendingOrders?.length,
+    pendingOrders: pendingData?.totalElements || 0,
     top5OrdersNewest,
-    orders: orders?.content || [],
+    isLoading: productsLoading || ordersLoading || pendingLoading,
+    isError: isProductsError || isOrdersError || isPendingError,
+    error: productsError || ordersError || pendingError,
     handleUpdateOrderStatus,
   };
 };

@@ -16,13 +16,20 @@ export const isCriticalError = (isError: boolean, error: unknown): boolean => {
     
     // 5xx: Server errors
     if (typeof status === "number" && status >= 500) return true;
-
-    // 404: Resource not found (usually critical for detail pages)
-    if (status === 404) return true;
   }
 
   // Otherwise, assume it's a non-critical business/validation error
   return false;
+};
+
+export const isNotFoundError = (isError: boolean, error: unknown): boolean => {
+  if (!isError || !error) return false;
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    "status" in error &&
+    error.status === 404
+  );
 };
 
 // Interface representing the structure of our Backend error response

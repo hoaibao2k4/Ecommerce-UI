@@ -1,13 +1,13 @@
 import { useGetProductsFilterQuery } from "@/stores/api/apiProduct";
 import type { ProductParams } from "@/types";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router";
 
 export const useProductsFilter = (productParams: ProductParams | undefined) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Helper to sync params to URL
-  const updateUrl = (newParams: ProductParams) => {
+  const updateUrl = useCallback((newParams: ProductParams) => {
     const urlParams = new URLSearchParams();
     if (newParams.keyword) urlParams.set("keyword", newParams.keyword);
     if (newParams.categoryId)
@@ -22,7 +22,7 @@ export const useProductsFilter = (productParams: ProductParams | undefined) => {
       urlParams.set("page", String(newParams.page + 1));
 
     setSearchParams(urlParams, { replace: true });
-  };
+  }, [setSearchParams]);
 
   // API Params state (Initialize from URL if available)
   const [params, setParams] = useState<ProductParams>(() => {
@@ -70,7 +70,7 @@ export const useProductsFilter = (productParams: ProductParams | undefined) => {
   // Sync state to URL whenever params change
   useEffect(() => {
     updateUrl(params);
-  }, [params]);
+  }, [params, updateUrl]);
 
   // Actions
   const handlePageChange = (page: number) => {

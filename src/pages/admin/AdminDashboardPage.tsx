@@ -1,7 +1,9 @@
 import OrderStatusBadge from "@/components/Orders/OrderStatusBadge";
 import Table, { type Column } from "@/components/ui/table";
 import { useDashBoard } from "@/hooks/useDashBoard";
+import ErrorPage from "@/pages/error/ErrorPage";
 import LoadingPage from "@/pages/error/LoadingPage";
+import { isCriticalError } from "@/utils/errorHelper";
 import { FaBox, FaClipboardList, FaShoppingCart } from "react-icons/fa";
 
 export default function AdminDashboardPage() {
@@ -10,8 +12,18 @@ export default function AdminDashboardPage() {
     totalOrders,
     pendingOrders,
     isLoading,
+    isError,
+    error,
     top5OrdersNewest,
   } = useDashBoard();
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  if (isCriticalError(isError, error)) {
+    return <ErrorPage onRetry={() => globalThis.location.reload()} />;
+  }
 
   const summary = [
     {
@@ -45,7 +57,7 @@ export default function AdminDashboardPage() {
       header: "Total",
       accessor: "totalAmount",
       render: (row) => (
-        <span className="font-bold text-primary">${row.totalAmount}</span>
+        <span className="font-bold text-primary">${row.totalAmount.toLocaleString()}</span>
       ),
     },
     {
@@ -55,9 +67,6 @@ export default function AdminDashboardPage() {
     },
   ];
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
 
   return (
     <div className="space-y-8">
@@ -73,7 +82,7 @@ export default function AdminDashboardPage() {
                 {item.title}
               </p>
               <h3 className="text-4xl font-black mt-2 text-slate-800">
-                {item.value}
+                {item.value?.toLocaleString()}
               </h3>
             </div>
             <div

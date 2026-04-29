@@ -1,4 +1,7 @@
 import { StatusDropdown } from "@/components/Orders/StatusDropDown";
+import OrderTimeline from "@/components/Orders/OrderTimeline";
+import OrderCustomerInfo from "@/components/Orders/OrderCustomerInfo";
+import OrderItemsList from "@/components/Orders/OrderItemsList";
 import CustomButton from "@/components/ui/button";
 import Modal from "@/components/ui/modal";
 import Pagination from "@/components/ui/pagination";
@@ -145,155 +148,18 @@ export default function AdminOrdersPage() {
         size="lg"
       >
         <div className="space-y-8">
-          {/* Order Status History/Timeline */}
-          <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-            <h3 className="text-[10px] uppercase font-black text-slate-400 mb-6 tracking-widest text-center">
-              Order Progress
-            </h3>
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative">
-              {/* Progress Line Connector */}
-              <div className="hidden sm:block absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -translate-y-1/2 z-0"></div>
-
-              {(() => {
-                const standardSteps = [
-                  "PENDING",
-                  "CONFIRMED",
-                  "SHIPPED",
-                  "DELIVERED",
-                ];
-                const isCancelled =
-                  selectedOrder?.status.toUpperCase() === "CANCELLED";
-                const steps = isCancelled
-                  ? [...standardSteps.slice(0, 2), "CANCELLED"]
-                  : standardSteps;
-
-                return steps.map((step, idx) => {
-                  const isCompleted = isCancelled
-                    ? step === "CANCELLED" ||
-                      standardSteps.indexOf(step) <
-                        standardSteps.indexOf(
-                          selectedOrder?.status.toUpperCase() || "",
-                        )
-                    : standardSteps.indexOf(
-                        selectedOrder?.status.toUpperCase() || "",
-                      ) >= standardSteps.indexOf(step);
-
-                  const isCurrent =
-                    selectedOrder?.status.toUpperCase() === step;
-                  const isCancelledStep = step === "CANCELLED";
-
-                  return (
-                    <div
-                      key={step}
-                      className="relative z-10 flex flex-row sm:flex-col items-center gap-3 sm:gap-2 flex-1 w-full sm:w-auto"
-                    >
-                      <div
-                        className={`w-8 h-8 rounded-full border-4 flex items-center justify-center text-xs font-bold transition-all duration-500 ${
-                          isCompleted
-                            ? isCancelledStep
-                              ? "bg-red-500 border-red-200 text-white"
-                              : "bg-primary border-primary/20 text-white"
-                            : "bg-white border-slate-200 text-slate-300"
-                        } ${
-                          isCurrent
-                            ? isCancelledStep
-                              ? "ring-4 ring-red-200 scale-110"
-                              : "ring-4 ring-primary/20 scale-110"
-                            : ""
-                        }`}
-                      >
-                        {isCompleted ? (isCancelledStep ? "✕" : "✓") : idx + 1}
-                      </div>
-                      <span
-                        className={`text-[10px] font-black uppercase tracking-tighter sm:tracking-widest ${
-                          isCurrent
-                            ? isCancelledStep
-                              ? "text-red-500"
-                              : "text-primary"
-                            : isCompleted
-                              ? "text-slate-600"
-                              : "text-slate-300"
-                        }`}
-                      >
-                        {step}
-                      </span>
-                    </div>
-                  );
-                });
-              })()}
-            </div>
-          </div>
-
-          {/* User Info */}
-          <div>
-            <h3 className="font-bold text-lg border-b pb-2 mb-4 text-slate-800 italic">
-              Customer Information
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-6 gap-x-8 text-sm">
-              <div>
-                <p className="text-[10px] uppercase font-black text-slate-400 mb-1.5 tracking-widest">
-                  Customer ID
-                </p>
-                <p className="font-bold text-slate-700">#{selectedOrder?.userId}</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase font-black text-slate-400 mb-1.5 tracking-widest">
-                  Username
-                </p>
-                <p className="font-bold text-slate-800 text-base">
-                  {selectedOrder?.username}
-                </p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase font-black text-slate-400 mb-1.5 tracking-widest">
-                  Email Contact
-                </p>
-                <p className="font-bold text-primary underline underline-offset-4 decoration-primary/20">
-                  {selectedOrder?.email}
-                </p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase font-black text-slate-400 mb-1.5 tracking-widest">
-                  Order Date
-                </p>
-                <p className="font-bold text-slate-700">
-                  {selectedOrder && new Date(selectedOrder.createdAt).toLocaleString()}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Product List */}
-          <div>
-            <h3 className="font-bold text-lg border-b pb-2 mb-4 text-slate-800">
-              Products
-            </h3>
-            <div className="space-y-3">
-              {selectedOrder?.orderItems?.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center bg-slate-50 p-4 rounded-xl border border-slate-100 transition-all hover:bg-slate-100"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-white shadow-sm border border-slate-200 rounded-lg flex items-center justify-center text-xl">
-                      📦
-                    </div>
-                    <div>
-                      <p className="font-bold text-slate-800">
-                        {item.productName}
-                      </p>
-                      <p className="text-xs font-semibold text-slate-500 mt-0.5">
-                        Quantity: {item.quantity}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="font-black text-primary">
-                    ${(item.unitPrice * item.quantity).toLocaleString()}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
+          {selectedOrder && (
+            <>
+              <OrderTimeline status={selectedOrder.status} />
+              <OrderCustomerInfo
+                userId={selectedOrder.userId}
+                username={selectedOrder.username}
+                email={selectedOrder.email}
+                createdAt={selectedOrder.createdAt}
+              />
+              <OrderItemsList items={selectedOrder.orderItems || []} />
+            </>
+          )}
         </div>
       </Modal>
     </div>
