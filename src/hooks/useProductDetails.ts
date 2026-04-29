@@ -2,7 +2,6 @@ import { useGetProductByIdQuery } from "@/stores/api/apiProduct";
 import { addToCart } from "@/stores/slices/cartSlice";
 import type { AppDispatch } from "@/stores/store";
 import type { CartItem } from "@/types";
-import { type ProductResponse } from "@/types/product";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
@@ -10,9 +9,7 @@ import { useNavigate, useParams } from "react-router";
 
 export const useProductDetails = () => {
   const { id } = useParams();
-  const { data, isLoading, isError, error, isFetching } = useGetProductByIdQuery(
-    Number(id),
-  );
+  const { data, isLoading, isError, error, isFetching } = useGetProductByIdQuery(Number(id));
   const [quantity, setQuantity] = useState<number>(1);
   const dispatch = useDispatch<AppDispatch>();
   const handleIncrease = () => {
@@ -56,7 +53,7 @@ export const useProductDetails = () => {
     handleBuyNow,
 
     //api
-    product: data as ProductResponse,
+    product: data,
     isLoading,
     isError,
     error,

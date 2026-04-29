@@ -11,10 +11,7 @@ import { Link } from "react-router";
 export default function LoginPage() {
   const { handleKeycloakLogin } = useAuth();
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/assets/auth-bg.png')" }}
-    >
+    <div className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat bg-[url('/assets/auth-bg.png')]">
       <div className="bg-white/80 backdrop-blur-md w-full max-w-md space-y-8 p-8 rounded-2xl shadow-2xl border border-white/20">
         <div className="text-center">
           <Badge variant="info" className="mb-2">

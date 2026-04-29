@@ -10,10 +10,7 @@ import { Link } from "react-router";
 export default function RegisterPage() {
   const { handleKeycloakLogin } = useAuth();
   return (
-    <div
-      className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url('/assets/auth-bg.png')" }}
-    >
+    <div className="min-h-screen flex items-center justify-center p-4 bg-cover bg-center bg-no-repeat bg-[url('/assets/auth-bg.png')]">
       <div className="bg-white/80 backdrop-blur-md w-full max-w-md space-y-8 p-10 rounded-2xl shadow-2xl border border-white/20">
         <div className="text-center">
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">

@@ -3,7 +3,8 @@ import CustomButton from "@/components/ui/button";
 import { useProductDetails } from "@/hooks/useProductDetails";
 import ErrorPage from "@/pages/error/ErrorPage";
 import LoadingPage from "@/pages/error/LoadingPage";
-import { isCriticalError } from "@/utils/errorHelper";
+import NotFoundPage from "@/pages/error/NotFoundPage";
+import { isCriticalError, isNotFoundError } from "@/utils/errorHelper";
 import { Link } from "react-router";
 
 export default function ProductDetails() {
@@ -23,7 +24,11 @@ export default function ProductDetails() {
     return <LoadingPage />;
   }
 
-  if (isCriticalError(isError, error)) {
+  if (isNotFoundError(isError, error)) {
+    return <NotFoundPage />;
+  }
+
+  if (isCriticalError(isError, error) || !product) {
     return <ErrorPage onRetry={() => globalThis.location.reload()} />;
   }
 
